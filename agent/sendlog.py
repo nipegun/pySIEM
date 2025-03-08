@@ -7,13 +7,7 @@ if len(sys.argv) != 5:
   print("Uso: python sendlog.py <protocolo> <ip> <puerto> <carpeta>")
   sys.exit(1)
 
-# Obtener los argumentos de la línea de comandos
-protocolo = sys.argv[1]
-ip = sys.argv[2]
-puerto = sys.argv[3]
-carpeta = sys.argv[4]
-
-# Definir las variables
+# Definir las variables a partir de los argumentos pasados al script
 #vProto =   sys.argv[1]
 vProto =   "http"
 #vIP =      sys.argv[2]
