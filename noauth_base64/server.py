@@ -2,6 +2,7 @@ import asyncio
 import base64
 import json
 from fastapi import FastAPI, WebSocket
+from fastapi import Body
 from typing import List
 
 app = FastAPI()
@@ -33,7 +34,7 @@ async def websocket_endpoint(websocket: WebSocket):
     clients.remove(websocket)
 
 @app.post("/log")
-async def receive_log(encoded_data: str):
+async def receive_log(encoded_data: str = Body(..., embed=True)):
   """Recibe un JSON en Base64, lo decodifica y lo envía en tiempo real a WebSockets"""
   decoded_json = decode_base64_json(encoded_data)  # Decodificar JSON completo
   
@@ -43,7 +44,7 @@ async def receive_log(encoded_data: str):
 
   # Extraer el mensaje dentro del JSON decodificado
   log_message = decoded_json.get("message", "Sin datos")
-
+  
   disconnected_clients = []
   for client in clients:
     try:
@@ -60,4 +61,5 @@ async def receive_log(encoded_data: str):
 
 if __name__ == "__main__":
   import uvicorn
-  uvicorn.run(app, host="0.0.0.0", port=8000)
+  # uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+  uvicorn.run(app, host="0.0.0.0", port=8000)  # SIN reload
