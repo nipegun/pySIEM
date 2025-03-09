@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logs en Tiempo Real</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      text-align: center;
+      padding: 20px;
+    }
+    h2 {
+      color: #333;
+    }
+    #logs {
+      width: 80%;
+      height: 400px;
+      overflow-y: auto;
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .log-entry {
+      padding: 5px;
+      border-bottom: 1px solid #ddd;
+    }
+    button {
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Logs en Tiempo Real</h2>
+  
+  <label for="token">Token JWT:</label>
+  <input type="text" id="token" placeholder="Introduce tu token aquí">
+  <button onclick="connectWebSocket()">Conectar</button>
+  <button onclick="disconnectWebSocket()">Desconectar</button>
+
+  <div id="logs"></div>
+
+  <script>
+    let socket = null;
+
+    function connectWebSocket() {
+      const token = document.getElementById("token").value.trim();
+      if (!token) {
+        alert("Por favor, ingresa un token JWT válido.");
+        return;
+      }
+
+      const wsUrl = `ws://localhost:8000/ws?token=${token}`;
+      socket = new WebSocket(wsUrl);
+
+      socket.onopen = function () {
+        console.log("Conectado al WebSocket");
+        const logsDiv = document.getElementById("logs");
+        logsDiv.innerHTML = `<div class="log-entry" style="color: green;">✅ Conectado al servidor WebSocket</div>`;
+      };
+
+      socket.onmessage = function (event) {
+        console.log("Mensaje recibido:", event.data);
+        const logsDiv = document.getElementById("logs");
+        const logEntry = document.createElement("div");
+        logEntry.className = "log-entry";
+        logEntry.textContent = event.data;
+        logsDiv.appendChild(logEntry);
+        logsDiv.scrollTop = logsDiv.scrollHeight;  // Desplazar hacia abajo automáticamente
+      };
+
+      socket.onclose = function () {
+        console.log("Desconectado del WebSocket");
+        const logsDiv = document.getElementById("logs");
+        const logEntry = document.createElement("div");
+        logEntry.className = "log-entry";
+        logEntry.style.color = "red";
+        logEntry.textContent = "❌ Desconectado del servidor WebSocket";
+        logsDiv.appendChild(logEntry);
+      };
+
+      socket.onerror = function (error) {
+        console.error("Error en WebSocket:", error);
+        alert("Error en la conexión WebSocket.");
+      };
+    }
+
+    function disconnectWebSocket() {
+      if (socket) {
+        socket.close();
+        socket = null;
+      }
+    }
+  </script>
+
+</body>
+</html>
