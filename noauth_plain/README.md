@@ -1,4 +1,4 @@
-# PySIEM sin autenticación
+# PySIEM sin autenticación con datos en texto plano
 
 Implementación rápida sin autenticación por JWT.
 
