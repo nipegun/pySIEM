@@ -56,6 +56,27 @@
     chmod +x ~/pySIEM/*.sh
     chmod +x ~/pySIEM/*.py
 
+
+# Instalar otros paquetes necesarios para que funcione el servidor:
+  # Comprobar si el paquete python3-fastapi está instalado. Si no lo está, instalarlo.
+    if [[ $(dpkg-query -s python3-fastapi 2>/dev/null | grep installed) == "" ]]; then
+      echo ""
+      echo -e "${cColorRojo}      El paquete python3-fastapi no está instalado. Iniciando su instalación...${cFinColor}"
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install python3-fastapi
+      echo ""
+    fi
+  # Comprobar si el paquete python3-jwt está instalado. Si no lo está, instalarlo.
+    if [[ $(dpkg-query -s python3-jwt 2>/dev/null | grep installed) == "" ]]; then
+      echo ""
+      echo -e "${cColorRojo}      El paquete python3-jwt no está instalado. Iniciando su instalación...${cFinColor}"
+      echo ""
+      sudo apt-get -y update
+      sudo apt-get -y install python3-jwt
+      echo ""
+    fi
+
 # Notificar fin de ejecución del script
   echo ""
   echo "    El script ha finalizado."
