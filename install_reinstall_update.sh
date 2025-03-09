@@ -45,6 +45,7 @@
       echo ""
     fi
   cd /tmp
+  rm -rf /tmp/pySIEM 2> /dev/null
   git clone https://github.com/nipegun/pySIEM.git
 
 # Preparar estructura de carpetas
