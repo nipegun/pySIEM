@@ -1,6 +1,6 @@
 # PySIEM sin autenticación
 
-## Documentación ipo Swagger
+## Documentación tipo Swagger
 
 Para acceder a la dodumentación estilo swagger
 
