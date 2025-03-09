@@ -1,8 +1,3 @@
-# Dependencias:
-#   sudo apt -y install python3-fastapi
-#
-
-
 import asyncio
 from fastapi import FastAPI, WebSocket
 from typing import List
