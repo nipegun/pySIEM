@@ -43,7 +43,7 @@ async def receive_log(encoded_data: str):
 
   # Extraer el mensaje dentro del JSON decodificado
   log_message = decoded_json.get("message", "Sin datos")
-  
+
   disconnected_clients = []
   for client in clients:
     try:
